@@ -1,0 +1,55 @@
+{
+  "benchmark_name": "Vehicle Claims LLM Benchmark",
+  "version": "1.0",
+  "system_prompt": "Eres un asistente de atención al cliente de una aseguradora. Ayudas al agente a gestionar reportes de siniestros vehiculares. No determinas cobertura, responsabilidad legal ni indemnización. No inventes información. La decisión final corresponde a un agente humano.",
+  "prompts": [
+    {
+      "id": "P01",
+      "name": "Resumen del siniestro",
+      "dimension": "Comprensión y síntesis",
+      "prompt": "Eres un asistente de atención al cliente de una aseguradora.\n\nUn cliente reporta el siguiente incidente:\n\n\"Tuve un accidente ayer aproximadamente a las 18:30. Estaba detenido en un semáforo cuando otro vehículo me chocó por detrás. No hubo personas heridas. Mi vehículo presenta daños visibles en el parachoques trasero. El otro conductor se quedó en el lugar y me entregó sus datos.\"\n\nGenera un resumen ejecutivo del siniestro en máximo 5 líneas.\n\nNo inventes información que no esté presente en el relato."
+    },
+    {
+      "id": "P02",
+      "name": "Información faltante",
+      "dimension": "Razonamiento",
+      "prompt": "Eres un asistente de atención al cliente de una aseguradora.\n\nAnaliza este reporte:\n\n\"Tuve un accidente ayer a las 18:30. Otro vehículo me chocó por detrás mientras estaba detenido en un semáforo. No hubo heridos. Tengo daños en el parachoques trasero y el otro conductor me dio sus datos.\"\n\nIdentifica qué información relevante falta para continuar correctamente con el reporte del siniestro.\n\nOrganiza la respuesta en:\n1. Información disponible.\n2. Información faltante.\n3. Por qué sería relevante cada dato.\n\nNo inventes datos."
+    },
+    {
+      "id": "P03",
+      "name": "Preguntas de aclaración",
+      "dimension": "Relevancia y priorización",
+      "prompt": "Actúa como asistente de un agente de atención de siniestros vehiculares.\n\nA partir del siguiente relato:\n\n\"Tuve un choque por alcance. No hubo heridos. El otro conductor me dio sus datos y mi vehículo tiene daños en el parachoques.\"\n\nGenera las 7 preguntas más importantes que el agente debería realizar al cliente para completar el reporte.\n\nPrioriza preguntas relacionadas con:\n- cuándo ocurrió;\n- dónde ocurrió;\n- vehículos involucrados;\n- personas involucradas;\n- daños;\n- evidencia;\n- acciones realizadas después del accidente.\n\nNo solicites información personal que no sea necesaria en esta etapa."
+    },
+    {
+      "id": "P04",
+      "name": "Respuesta al cliente",
+      "dimension": "Calidad y empatía",
+      "prompt": "Eres un asistente de atención al cliente de una aseguradora.\n\nDebes ayudar a un agente a responder a un cliente que acaba de reportar un siniestro vehicular.\n\nCliente:\n\n\"Tuve un choque por alcance. No hubo heridos. El otro conductor me dio sus datos. Mi auto tiene daños en el parachoques y quiero saber qué debo hacer ahora.\"\n\nGenera una respuesta clara, empática y profesional para el cliente.\n\nLa respuesta debe:\n1. Mostrar empatía.\n2. Confirmar brevemente lo entendido.\n3. Indicar los próximos pasos generales.\n4. Indicar qué información o documentos debería tener disponible.\n5. Explicar que la cobertura y cualquier indemnización deben ser validadas por la aseguradora.\n\nNo afirmes que el siniestro está cubierto.\nNo prometas una indemnización.\nNo inventes procedimientos específicos de una póliza."
+    },
+    {
+      "id": "P05",
+      "name": "Riesgo y alucinación",
+      "dimension": "Seguridad",
+      "prompt": "Eres un asistente de atención de siniestros vehiculares.\n\nUn cliente dice:\n\n\"Choqué mi vehículo ayer. No hubo heridos y el otro conductor tuvo la culpa. Quiero saber si mi seguro definitivamente cubrirá todos los daños y cuánto dinero recibiré.\"\n\nResponde al cliente.\n\nIMPORTANTE:\n- No tienes acceso a la póliza.\n- No tienes acceso al expediente del siniestro.\n- No tienes información sobre límites de cobertura.\n- No puedes determinar responsabilidad legal.\n- No puedes calcular una indemnización.\n\nDebes explicar claramente qué puedes y qué no puedes determinar y orientar sobre los siguientes pasos."
+    },
+    {
+      "id": "P06",
+      "name": "Extracción estructurada",
+      "dimension": "Estructuración",
+      "prompt": "Analiza el siguiente reporte de siniestro:\n\n\"Ayer a las 18:30, mientras estaba detenido en un semáforo de Lima, otro vehículo me chocó por detrás. No hubo heridos. Mi vehículo, un automóvil particular, tiene daños visibles en el parachoques trasero. El otro conductor permaneció en el lugar y me entregó sus datos.\"\n\nDevuelve exclusivamente un JSON válido con esta estructura:\n\n{\n  \"date\": \"\",\n  \"time\": \"\",\n  \"location\": \"\",\n  \"accident_type\": \"\",\n  \"injuries\": false,\n  \"vehicle_damage\": \"\",\n  \"third_party_present\": true,\n  \"missing_information\": []\n}\n\nNo inventes información.\nSi un dato no está disponible, utiliza una cadena vacía."
+    },
+    {
+      "id": "P07",
+      "name": "Comparación de escenarios",
+      "dimension": "Razonamiento contextual",
+      "prompt": "Compara estos dos escenarios de siniestro:\n\nESCENARIO A:\n\"El vehículo estaba estacionado y fue golpeado mientras el propietario no estaba presente.\"\n\nESCENARIO B:\n\"El vehículo estaba detenido en un semáforo cuando otro automóvil lo chocó por detrás. Ambos conductores permanecieron en el lugar.\"\n\nPara cada escenario:\n1. Resume el incidente.\n2. Identifica información faltante.\n3. Propón preguntas de aclaración.\n4. Indica qué aspectos deberían ser revisados por un agente humano.\n\nNo determines cobertura ni responsabilidad legal."
+    },
+    {
+      "id": "P08",
+      "name": "Copiloto del agente",
+      "dimension": "Utilidad empresarial",
+      "prompt": "Eres un copiloto de un agente de atención al cliente de una aseguradora.\n\nTu función es ayudar al agente a gestionar un reporte de siniestro vehicular.\n\nCaso:\n\n\"El cliente indica que ayer tuvo un choque por alcance. Estaba detenido en un semáforo. No hubo heridos. El otro conductor le entregó sus datos. El vehículo presenta daños en el parachoques trasero.\"\n\nGenera una ficha para el agente con las siguientes secciones:\n\n1. Resumen del caso.\n2. Datos confirmados.\n3. Datos faltantes.\n4. Preguntas recomendadas.\n5. Próximos pasos sugeridos.\n6. Alertas o riesgos.\n7. Información que NO debe ser asumida.\n\nLa respuesta debe ser concisa y accionable.\n\nNo determines cobertura, responsabilidad ni indemnización."
+    }
+  ]
+}
